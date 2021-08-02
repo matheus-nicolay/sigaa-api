@@ -6,6 +6,7 @@ import { Session } from '@session/sigaa-session';
 import { Account } from './sigaa-account';
 import { SigaaAccountIFSC } from './sigaa-account-ifsc';
 import { SigaaAccountUFPB } from './sigaa-account-ufpb';
+import { SigaaAccountIFFAR } from './sigaa-account-iffar';
 
 /**
  * Abstraction to represent the class that instantiates the account.
@@ -44,7 +45,15 @@ export class SigaaAccountFactory implements AccountFactory {
         this.session,
         this.bondFactory
       );
-    } else {
+    } else if(this.session.institution === 'IFFAR'){
+      return new SigaaAccountIFFAR(
+        page,
+        this.http,
+        this.parser,
+        this.session,
+        this.bondFactory
+      );
+    }else {
       return new SigaaAccountIFSC(
         page,
         this.http,

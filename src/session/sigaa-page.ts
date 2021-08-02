@@ -241,7 +241,7 @@ export class SigaaPage implements Page {
       throw new Error('SIGAA: Form not found.');
 
     const formQuery = javaScriptCode.replace(
-      /if([\S\s]*?)getElementById\('|'([\S\s]*?)false/gm,
+      /(var|if)([\S\s]*?)getElementById\('|'([\S\s]*?)$/gm,
       ''
     );
 
@@ -266,7 +266,7 @@ export class SigaaPage implements Page {
     });
 
     const postValuesString = `{${javaScriptCode
-      .replace(/if([\S\s]*?),{|},([\S\s]*?)false/gm, '')
+      .replace(/(var|if)([\S\s]*?),{|},([\S\s]*?)$/gm, '')
       .replace(/"/gm, '\\"')
       .replace(/'/gm, '"')}}`;
 

@@ -1058,18 +1058,21 @@ export class SigaaCourseStudent implements CourseStudent {
         10
       );
       if (theadElementColspan === 1) {
+        const grade: GradeGroup = {
+          name: gradeGroupName,
+          type: 'only-average'
+        };
         const valueString = this.parser
           .removeTagsHtml(valueCells.eq(index).html())
           .replace(/,/g, '.');
         let value;
         if (valueString.length > 0) {
           value = parseFloat(valueString);
+          if (!isNaN(value)) {
+            grade.value = value;
+          }
         }
-        grades.push({
-          name: gradeGroupName,
-          value,
-          type: 'only-average'
-        });
+        grades.push(grade);
       } else {
         let type = 'weighted-average';
         const gradesSumOfGrades: SubGradeSumOfGrades[] = [];

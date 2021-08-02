@@ -80,7 +80,7 @@ export class SigaaStudentBond implements StudentBond {
           const fullname = this.parser.removeTagsHtml(
             cellElements.eq(0).html()
           );
-          const buttonCoursePage = cellElements.eq(5).find('a[onclick]');
+          const buttonCoursePage = cellElements.eq(4).find('a[onclick]');
           const buttonOnClickCode = buttonCoursePage.attr('onclick');
 
           if (!buttonOnClickCode) throw new Error('SIGAA: Invalid row.');
@@ -92,7 +92,7 @@ export class SigaaStudentBond implements StudentBond {
             numberOfStudents: parseInt(
               this.parser.removeTagsHtml(cellElements.eq(2).html())
             ),
-            schedule: this.parser.removeTagsHtml(cellElements.eq(4).html()),
+            schedule: this.parser.removeTagsHtml(cellElements.eq(3).html()),
             period,
             id: form.postValues['idTurma'],
             form

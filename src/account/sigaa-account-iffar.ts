@@ -98,7 +98,9 @@ export class SigaaAccountIFFAR implements Account {
    * @param page page to parse.
    */
   private async parseBondPage(page: Page) {
+    let count = 0;
     const rows = page.$('table.formulario tbody tr').toArray();
+
     for (const row of rows) {
       const cells = page.$(row).find('td').toArray();
       if (cells.length === 0) continue;
@@ -122,11 +124,14 @@ export class SigaaAccountIFFAR implements Account {
           const program = this.parser
             .removeTagsHtml(page.$(cells[4]).html())
             .replace(/^Curso: /g, '');
-          bond = this.bondFactory.createStudentBond(
-            registration,
-            program,
-            bondSwitchUrl
-          );
+
+          if(!(registration == null || registration == "")){
+            bond = this.bondFactory.createStudentBond(
+              registration,
+              program,
+              bondSwitchUrl
+            );
+            }
           break;
         }
         case 'Docente': {
@@ -134,14 +139,13 @@ export class SigaaAccountIFFAR implements Account {
           break;
         }
       }
+
       if (bond)
-        if (status === 'Sim') {
+        if (count == 2) {
           this.activeBonds.push(bond);
-        } else if (status === 'Não') {
+        } else{
           this.inactiveBonds.push(bond);
-        } else {
-          console.log('SIGAA: WARNING invalid status: ' + status);
-        }
+        } 
     }
   }
 
